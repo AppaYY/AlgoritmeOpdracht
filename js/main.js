@@ -1,8 +1,8 @@
-function loadJSON(callback) {
+function loadJSONRequest(callback) {
 
     var xobj = new XMLHttpRequest();
     xobj.overrideMimeType("application/json");
-    xobj.open('GET', 'json/defaultAfspraken.json', true); // Replace 'my_data' with the path to your file
+    xobj.open('GET', 'json/defaultAfspraken.json', true);
     xobj.onreadystatechange = function () {
         if (xobj.readyState == 4 && xobj.status == "200") {
             // Required use of an anonymous callback as .open will NOT return a value but simply returns undefined in asynchronous mode
@@ -12,8 +12,8 @@ function loadJSON(callback) {
     xobj.send(null);
 }
 
-function init() {
-    loadJSON(function (response) {
+function getDefaultAfspraken() {
+    loadJSONRequest(function (response) {
         // Parse JSON string into object
         var dataJSON = JSON.parse(response);
         console.log(dataJSON);
@@ -31,8 +31,6 @@ function init() {
                     "<th>Monteur</th>" +
                 "</tr>" +
                 "</thead>";
-
-    
         // Loop through array and add table cells
         for (var i=0; i<dataJSON.length; i++) {
             html += "<tr>" + 
@@ -44,13 +42,16 @@ function init() {
                         "<td>" + dataJSON[i].Afspraak.redenAfspraak + "</td>" +
                         "<td>" + dataJSON[i].Afspraak.naamMonteur + "</td>" +
                     "</tr>";
-            
         }
         html += "</table>";
 
         // ATTACH HTML TO DIV
-        document.getElementById("data").innerHTML = html;
+        document.getElementById("data").innerHTML += html;
     });
 }
 
-init();
+const importJSONButton = document.getElementById('importJSON');
+
+importJSONButton.addEventListener('click', event => {
+    getDefaultAfspraken();
+});
