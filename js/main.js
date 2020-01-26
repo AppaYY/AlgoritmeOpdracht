@@ -55,3 +55,24 @@ const importJSONButton = document.getElementById('importJSON');
 importJSONButton.addEventListener('click', event => {
     getDefaultAfspraken();
 });
+
+
+function CreatePlan() {
+    const els = document.getElementById("Createplandiv").getElementsByTagName("input");
+console.log(els);
+xhr = new XMLHttpRequest();
+xhr.open("POST","json/defaultAfspraken.json",true);
+xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            console.log("ready");
+        }
+        var data = JSON.stringify({"Id":"99","naamKlant":els[0].value,"adressKlant":els[1].value,"gewenstTijdstip":els[2].value,"dichtbijzijndeHalte":els[3].value,"afstandHalte":els[4].value,"redenAfspraak":els[5].value,"naamMonsteur":els[6].value})
+
+    };
+    }
+    const createPlanButton = document.getElementById('Createplan');
+
+createPlanButton.addEventListener('click', event => {
+    CreatePlan();
+});
