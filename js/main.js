@@ -22,7 +22,7 @@ function getDefaultAfspraken() {
         html = "<table class='afsprakenTable'>";
         html += "<thead>" +
                 "<tr>" +
-                    "<th>Klant naam</th>" +
+                    "<th>Klant naam<div id='sort'><p> sort</p></div></th>" +
                     "<th>Klant adres</th>" +
                     "<th>Gewenst tijdstip</th>" +
                     "<th>Dichtsbijzijnde halte</th>" +
@@ -47,6 +47,12 @@ function getDefaultAfspraken() {
 
         // ATTACH HTML TO DIV
         document.getElementById("data").innerHTML += html;
+        const sortButton = document.getElementById('sort');
+
+        sortButton.addEventListener('click', event => {
+            sortDefaultAfspraken();
+
+        });
     });
 }
 
@@ -55,3 +61,12 @@ const importJSONButton = document.getElementById('importJSON');
 importJSONButton.addEventListener('click', event => {
     getDefaultAfspraken();
 });
+
+
+function sortDefaultAfspraken(){
+    loadJSONRequest(function (response) {
+        // Parse JSON string into object
+        var dataJSON = JSON.parse(response)
+        console.log(charCodeAt(0));
+    });
+}
