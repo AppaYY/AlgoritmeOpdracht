@@ -77,3 +77,28 @@ body{
     font-size: 12px;
 }
 
+#afspraakzoekendiv {
+    height: 100px;
+    width: 131px;
+    background-color: #4FC3A1;
+    color: #ffffff;
+    font-weight: 400;
+    text-align: center;
+    white-space: nowrap;
+    border: 1px solid #ffffff;
+    padding: 0 0.75rem;
+    font-size: 0.875rem;
+    cursor: pointer;
+    margin: auto;
+    outline: 0;
+}
+#afspraakzoekendiv >input {
+    height: 20px;
+    float: left;
+    position: relative;
+    top: -15px;
+    width: 100px;
+}
+#afspraakzoekendiv > button{
+    float:left;
+}
