@@ -11,21 +11,43 @@
 
 <body>
     <div id="data">
-        <button id="importJSON">Import afspraken</button>
-        <br>
-
+        <button id="importJSON" class="button">Import afspraken</button>
         <br>
     </div>
     <div id="Createplandiv">
-        klant_naam<input type="text" name="klant_naam"><br>
-        Klant_adress <input type="text" name="Klant_adress"><br>
-        Gewenst_tijdstip  <input type="text" name="Gewenst_tijdstip"><br>
-        Dicht_halte  <input type="text" name="Dicht_halte"><br>
-        Afstand_halte <input type="number" name="Afstand_halte"><br>
-        Reden<input type="text" name="Reden"><br>
-        Monteur   <input type="text" name="Monteur"><br>
-        <button id="Createplan">Afspraak maken</button>
-
+        <table id="inputTable" class="table">
+            <tr>
+                <td>Klant naam:</td>
+                <td><input type="text" name="klant_naam" class="inputField"></td>
+            </tr>
+            <tr>
+                <td>Klant adres:</td>
+                <td><input type="text" name="Klant_adress" class="inputField"></td>
+            </tr>
+            <tr>
+                <td>Gewenst tijdstip:</td>
+                <td><input type="datetime-local" name="Gewenst_tijdstip" class="inputField"></td>
+            </tr>
+            <tr>
+                <td>Dichtsbijzijnde halte:</td>
+                <td><input type="text" name="Dicht_halte" class="inputField"></td>
+            </tr>
+            <tr>
+                <td>Afstand halte:</td>
+                <td><input type="number" name="Afstand_halte" class="inputField"></td>
+            </tr>
+            <tr>
+                <td>Reden:</td>
+                <td><input type="text" name="Reden" class="inputField"></td>
+            </tr>
+            <tr>
+                <td>Monteur:</td>
+                <td><input type="text" name="Monteur" class="inputField"></td>
+            </tr>
+            <tr>
+                <td><button id="createPlan" class="button">Afspraak maken</button></td>
+            </tr>
+        </table>
     </div>
     <script src="js/main.js?v=3"></script>
 </body>

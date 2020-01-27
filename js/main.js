@@ -17,31 +17,31 @@ function getDefaultAfspraken() {
         // Parse JSON string into object
         var dataJSON = JSON.parse(response);
         console.log(dataJSON);
-        
+
         // DRAW THE HTML TABLE
-        html = "<table class='afsprakenTable'>";
+        html = "<table class='table'>";
         html += "<thead>" +
-                "<tr>" +
-                    "<th>Klant naam</th>" +
-                    "<th>Klant adres</th>" +
-                    "<th>Gewenst tijdstip</th>" +
-                    "<th>Dichtsbijzijnde halte</th>" +
-                    "<th>Afstand halte</th>" +
-                    "<th>Reden afspraak</th>" +
-                    "<th>Monteur</th>" +
-                "</tr>" +
-                "</thead>";
+            "<tr>" +
+            "<th>Klant naam</th>" +
+            "<th>Klant adres</th>" +
+            "<th>Gewenst tijdstip</th>" +
+            "<th>Dichtsbijzijnde halte</th>" +
+            "<th>Afstand halte</th>" +
+            "<th>Reden afspraak</th>" +
+            "<th>Monteur</th>" +
+            "</tr>" +
+            "</thead>";
         // Loop through array and add table cells
-        for (var i=0; i<dataJSON.length; i++) {
-            html += "<tr>" + 
-                        "<td>" + dataJSON[i].Afspraak.naamKlant + "</td>" + 
-                        "<td>" + dataJSON[i].Afspraak.adresKlant + "</td>" + 
-                        "<td>" + dataJSON[i].Afspraak.gewenstTijdstip + "</td>" +
-                        "<td>" + dataJSON[i].Afspraak.dichtsbijzijndeHalte + "</td>" +
-                        "<td>" + dataJSON[i].Afspraak.afstandHalte + "</td>" +
-                        "<td>" + dataJSON[i].Afspraak.redenAfspraak + "</td>" +
-                        "<td>" + dataJSON[i].Afspraak.naamMonteur + "</td>" +
-                    "</tr>";
+        for (var i = 0; i < dataJSON.length; i++) {
+            html += "<tr>" +
+                "<td>" + dataJSON[i].Afspraak.naamKlant + "</td>" +
+                "<td>" + dataJSON[i].Afspraak.adresKlant + "</td>" +
+                "<td>" + dataJSON[i].Afspraak.gewenstTijdstip + "</td>" +
+                "<td>" + dataJSON[i].Afspraak.dichtsbijzijndeHalte + "</td>" +
+                "<td>" + dataJSON[i].Afspraak.afstandHalte + "</td>" +
+                "<td>" + dataJSON[i].Afspraak.redenAfspraak + "</td>" +
+                "<td>" + dataJSON[i].Afspraak.naamMonteur + "</td>" +
+                "</tr>";
         }
         html += "</table>";
 
@@ -60,24 +60,33 @@ importJSONButton.addEventListener('click', event => {
 function CreatePlan() {
     const els = document.getElementById("Createplandiv").getElementsByTagName("input");
 
-
-        var data = JSON.stringify({"Id":"99","naamKlant":els[0].value,"adressKlant":els[1].value,"gewenstTijdstip":els[2].value,"dichtbijzijndeHalte":els[3].value,"afstandHalte":els[4].value,"redenAfspraak":els[5].value,"naamMonsteur":els[6].value})
-    var xhttp = new XMLHttpRequest();
-    xhttp.open("POST", "json/defaultAfspraken.json", true);
-    xhttp.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) {
-            console.log(data);
-            xhttp.send(data);
-
+    var xhr = new XMLHttpRequest();
+    var url = "json/defaultAfspraken.json";
+    xhr.open("POST", url, true);
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            var json = JSON.parse(xhr.responseText);
         }
     };
+    var data = JSON.stringify([{
+        "Afspraak": {
+            "Id": 99,
+            "naamKlant": els[0].value,
+            "adressKlant": els[1].value,
+            "gewenstTijdstip": els[2].value,
+            "dichtbijzijndeHalte": els[3].value,
+            "afstandHalte": els[4].value,
+            "redenAfspraak": els[5].value,
+            "naamMonsteur": els[6].value
+        }
+    }]);
+    console.log(data);
+    
+    xhr.send(data);
 
-
-
-
-
-    }
-    const createPlanButton = document.getElementById('Createplan');
+}
+const createPlanButton = document.getElementById('createPlan');
 
 createPlanButton.addEventListener('click', event => {
     CreatePlan();
