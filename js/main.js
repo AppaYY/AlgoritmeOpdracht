@@ -97,3 +97,70 @@ const importJSONButton = document.getElementById('importJSON');
 importJSONButton.addEventListener('click', event => {
     getDefaultAfspraken();
 });
+const searchButton = document.getElementById('afspraakZoeken');
+
+searchButton.addEventListener('click', event => {
+    afspraakZoeken();
+});
+
+function afspraakZoeken() {
+
+var el = document.getElementById("afspraakzoekendiv").childNodes;
+var input = document.getElementsByTagName("input")[0];
+var found = [];
+var html;
+    loadJSONRequest(function (response) {
+        // Parse JSON string into object
+        var dataJSON = JSON.parse(response);
+        for (var i=0;i<dataJSON.length;i++){
+            if (dataJSON[i].Afspraak.naamMonteur == input.value){
+                found.push(dataJSON[i].Afspraak);
+            }
+        }
+        var tablediv = document.getElementsByClassName("afsprakenTable")[0];
+        console.log(tablediv);
+        if (tablediv != null ) {
+
+            var table = tablediv.childNodes;
+            console.log(table);
+
+            table[1].innerHTML = "";
+        }else{
+            html = "<table class='afsprakenTable'>";
+            html += "<thead>" +
+                "<tr>" +
+                "<th>Klant naam</th>" +
+                "<th>Klant adres</th>" +
+                "<th>Gewenst tijdstip</th>" +
+                "<th>Dichtsbijzijnde halte</th>" +
+                "<th>Afstand halte</th>" +
+                "<th>Reden afspraak</th>" +
+                "<th>Monteur</th>" +
+                "</tr>" +
+                "</thead>";
+        }
+        for (var i=0;i<found.length;i++){
+            html += "<tr>" +
+                "<td>" + found[i].naamKlant + "</td>" +
+                "<td>" + found[i].adresKlant + "</td>" +
+                "<td>" + found[i].gewenstTijdstip + "</td>" +
+                "<td>" + found[i].dichtsbijzijndeHalte + "</td>" +
+                "<td>" + found[i].afstandHalte + "</td>" +
+                "<td>" + found[i].redenAfspraak + "</td>" +
+                "<td>" + found[i].naamMonteur + "</td>" +
+                "</tr>";
+        }
+        if (tablediv != undefined) {
+            html += "</table>";
+        }
+
+       var appendbody = document.getElementsByClassName("afsprakenTable")[0];
+        if (appendbody != undefined){
+       appendbody.childNodes[1].innerHTML += html;
+
+    }else{
+            document.getElementById("data").innerHTML += html;
+        }
+
+    });
+}
