@@ -24,8 +24,7 @@ body{
     -o-transition: all 0.15s ease-in-out;
     transition: all 0.15s ease-in-out;
     cursor: pointer;
-    display: flex;
-    margin: auto;
+    display: inline-block;
     outline: 0;
 }
 
@@ -89,8 +88,8 @@ body{
     padding: 0 0.75rem;
     font-size: 0.875rem;
     cursor: pointer;
-    margin: auto;
     outline: 0;
+    display: inline-block;
 }
 #afspraakzoekendiv >input {
     height: 20px;
@@ -101,4 +100,9 @@ body{
 }
 #afspraakzoekendiv > button{
     float:left;
+}
+#topnav{
+    overflow: hidden;
+    position: relative;
+    left: 40%;
 }
