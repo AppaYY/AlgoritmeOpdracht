@@ -13,6 +13,7 @@ function loadJSONRequest(callback) {
 }
 
 function getDefaultAfspraken() {
+    console.log("hi");
     loadJSONRequest(function (response) {
         // Parse JSON string into object
         var dataJSON = JSON.parse(response);
@@ -46,6 +47,11 @@ function getDefaultAfspraken() {
         html += "</table>";
 
         // ATTACH HTML TO DIV
+        var table = document.getElementsByClassName("afsprakenTable")[0];
+        console.log(table);
+        if (table != undefined){
+            table.parentNode.removeChild(table);
+        }
         document.getElementById("data").innerHTML += html;
     });
 }
@@ -54,6 +60,7 @@ const importJSONButton = document.getElementById('importJSON');
 
 importJSONButton.addEventListener('click', event => {
     getDefaultAfspraken();
+
 });
 const searchButton = document.getElementById('afspraakZoeken');
 
@@ -75,15 +82,6 @@ var html;
                 found.push(dataJSON[i].Afspraak);
             }
         }
-        var tablediv = document.getElementsByClassName("afsprakenTable")[0];
-        console.log(tablediv);
-        if (tablediv != null ) {
-
-            var table = tablediv.childNodes;
-            console.log(table);
-
-            table[1].innerHTML = "";
-        }else{
             html = "<table class='afsprakenTable'>";
             html += "<thead>" +
                 "<tr>" +
@@ -96,7 +94,6 @@ var html;
                 "<th>Monteur</th>" +
                 "</tr>" +
                 "</thead>";
-        }
         for (var i=0;i<found.length;i++){
             html += "<tr>" +
                 "<td>" + found[i].naamKlant + "</td>" +
@@ -108,17 +105,11 @@ var html;
                 "<td>" + found[i].naamMonteur + "</td>" +
                 "</tr>";
         }
-        if (tablediv != undefined) {
-            html += "</table>";
+        var table = document.getElementsByClassName("afsprakenTable")[0];
+        console.log(table);
+        if (table != undefined){
+            table.parentNode.removeChild(table);
         }
-
-       var appendbody = document.getElementsByClassName("afsprakenTable")[0];
-        if (appendbody != undefined){
-       appendbody.childNodes[1].innerHTML += html;
-
-    }else{
-            document.getElementById("data").innerHTML += html;
-        }
-
+        document.getElementById("data").innerHTML += html;
     });
 }
