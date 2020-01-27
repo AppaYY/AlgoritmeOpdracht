@@ -59,17 +59,23 @@ importJSONButton.addEventListener('click', event => {
 
 function CreatePlan() {
     const els = document.getElementById("Createplandiv").getElementsByTagName("input");
-console.log(els);
-xhr = new XMLHttpRequest();
-xhr.open("POST","json/defaultAfspraken.json",true);
-xhr.setRequestHeader("Content-Type", "application/json");
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState === 4 && xhr.status === 200) {
-            console.log("ready");
-        }
-        var data = JSON.stringify({"Id":"99","naamKlant":els[0].value,"adressKlant":els[1].value,"gewenstTijdstip":els[2].value,"dichtbijzijndeHalte":els[3].value,"afstandHalte":els[4].value,"redenAfspraak":els[5].value,"naamMonsteur":els[6].value})
 
+
+        var data = JSON.stringify({"Id":"99","naamKlant":els[0].value,"adressKlant":els[1].value,"gewenstTijdstip":els[2].value,"dichtbijzijndeHalte":els[3].value,"afstandHalte":els[4].value,"redenAfspraak":els[5].value,"naamMonsteur":els[6].value})
+    var xhttp = new XMLHttpRequest();
+    xhttp.open("POST", "json/defaultAfspraken.json", true);
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            console.log(data);
+            xhttp.send(data);
+
+        }
     };
+
+
+
+
+
     }
     const createPlanButton = document.getElementById('Createplan');
 
