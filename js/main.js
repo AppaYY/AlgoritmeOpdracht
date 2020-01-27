@@ -41,7 +41,7 @@ function selectionSort(dataJSON){
             var nextItem = dataJSON[j].Afspraak.Id;
             var currentItem = dataJSON[currentIndex].Afspraak.Id;
             // Check if next item is lower than the current item
-            if(nextItem < currentItem){
+            if(nextItem > currentItem){
                 // If true set current index variable to that item 
                 currentIndex = j;  
             }
