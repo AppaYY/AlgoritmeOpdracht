@@ -87,7 +87,6 @@ function generateTable(sortedDataJSON) {
     html += '</table>';
 
     var table = document.getElementsByClassName("afsprakenTable")[0];
-    console.log(table);
     if (table != undefined) {
         table.parentNode.removeChild(table);
     }
@@ -112,15 +111,15 @@ function afspraakZoeken() {
 var el = document.getElementById("afspraakzoekendiv").childNodes;
 var input = document.getElementsByTagName("input")[0];
 var found = [];
-var html;
     loadJSONRequest(function (response) {
         // Parse JSON string into object
         var dataJSON = JSON.parse(response);
         for (var i=0;i<dataJSON.length;i++){
             if (dataJSON[i].Afspraak.naamMonteur == input.value){
-                found.push(dataJSON[i].Afspraak);
+                var obj = dataJSON[i];
+                found.push(obj);
             }
         }
-
+        generateTable(found);
     });
 }
