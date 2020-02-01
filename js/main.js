@@ -58,7 +58,7 @@ function selectionSort(dataJSON){
 }
 
 /* GENERATE HTML TABLE WITH SORTED JSON */
-function generateTable(sortedDataJSON) {
+function generateTable(DataJson) {
     // Make basic HTML template with table headers
     html = '<table class="afsprakenTable">';
     html += '<thead>' +
@@ -73,15 +73,15 @@ function generateTable(sortedDataJSON) {
         '</tr>' +
         '</thead>';
     // Loop through array and add table cells
-    for (var i = 0; i < sortedDataJSON.length; i++) {
+    for (var i = 0; i < DataJson.length; i++) {
         html += '<tr>' +
-            '<td>' + sortedDataJSON[i].Afspraak.naamKlant + '</td>' +
-            '<td>' + sortedDataJSON[i].Afspraak.adresKlant + '</td>' +
-            '<td>' + sortedDataJSON[i].Afspraak.gewenstTijdstip + '</td>' +
-            '<td>' + sortedDataJSON[i].Afspraak.dichtsbijzijndeHalte + '</td>' +
-            '<td>' + sortedDataJSON[i].Afspraak.afstandHalte + '</td>' +
-            '<td>' + sortedDataJSON[i].Afspraak.redenAfspraak + '</td>' +
-            '<td>' + sortedDataJSON[i].Afspraak.naamMonteur + '</td>' +
+            '<td>' + DataJson[i].Afspraak.naamKlant + '</td>' +
+            '<td>' + DataJson[i].Afspraak.adresKlant + '</td>' +
+            '<td>' + DataJson[i].Afspraak.gewenstTijdstip + '</td>' +
+            '<td>' + DataJson[i].Afspraak.dichtsbijzijndeHalte + '</td>' +
+            '<td>' + DataJson[i].Afspraak.afstandHalte + '</td>' +
+            '<td>' + DataJson[i].Afspraak.redenAfspraak + '</td>' +
+            '<td>' + DataJson[i].Afspraak.naamMonteur + '</td>' +
             '</tr>';
     }
     html += '</table>';
