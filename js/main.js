@@ -23,13 +23,6 @@ function getDefaultAfspraken() {
         const dataJSON = JSON.parse(response);
         // Sort array
         selectionSort(dataJSON);
-
-        // /* TEST CONSOLE LOG */
-        // console.log(dataJSON);
-        // setTimeout(function(){
-        //     /* SELECTION SORT */
-        //     selectionSort(dataJSON);
-        // }, 3000);
     });
 }
 
@@ -62,7 +55,7 @@ function selectionSort(dataJSON) {
 }
 
 /* GENERATE HTML TABLE WITH SORTED JSON */
-function generateTable(DataJson) {
+function generateTable(sortedDataJson) {
     // Empty data div
     document.getElementById("data").innerHTML = '';
 
@@ -80,15 +73,15 @@ function generateTable(DataJson) {
         '</tr>' +
         '</thead>';
     // Loop through array and add table cells
-    for (var i = 0; i < DataJson.length; i++) {
+    for (var i = 0; i < sortedDataJson.length; i++) {
         html += '<tr>' +
-            '<td>' + DataJson[i].Afspraak.naamKlant + '</td>' +
-            '<td>' + DataJson[i].Afspraak.adresKlant + '</td>' +
-            '<td>' + DataJson[i].Afspraak.gewenstTijdstip + '</td>' +
-            '<td>' + DataJson[i].Afspraak.dichtsbijzijndeHalte + '</td>' +
-            '<td>' + DataJson[i].Afspraak.afstandHalte + '</td>' +
-            '<td>' + DataJson[i].Afspraak.redenAfspraak + '</td>' +
-            '<td>' + DataJson[i].Afspraak.naamMonteur + '</td>' +
+            '<td>' + sortedDataJson[i].Afspraak.naamKlant + '</td>' +
+            '<td>' + sortedDataJson[i].Afspraak.adresKlant + '</td>' +
+            '<td>' + sortedDataJson[i].Afspraak.gewenstTijdstip + '</td>' +
+            '<td>' + sortedDataJson[i].Afspraak.dichtsbijzijndeHalte + '</td>' +
+            '<td>' + sortedDataJson[i].Afspraak.afstandHalte + '</td>' +
+            '<td>' + sortedDataJson[i].Afspraak.redenAfspraak + '</td>' +
+            '<td>' + sortedDataJson[i].Afspraak.naamMonteur + '</td>' +
             '</tr>';
     }
     html += '</table>';
@@ -104,7 +97,7 @@ function generateTable(DataJson) {
 */
 
 /* 
-    US 3 START
+    US 4 START
 */
 /* SEARCH APPOINTMENT BASED ON CLIENT NAME */
 function afspraakZoeken() {
@@ -123,7 +116,7 @@ function afspraakZoeken() {
     });
 }
 /* 
-    US 3 END
+    US 4 END
 */
 
 /* ASSIGN CLICK LISTENER TO BUTTON */
