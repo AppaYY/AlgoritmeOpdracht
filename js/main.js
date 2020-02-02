@@ -99,15 +99,15 @@ function generateTable(sortedDataJson) {
 /* 
     US 4 START
 */
-/* SEARCH APPOINTMENT BASED ON CLIENT NAME */
-function afspraakZoeken() {
-    var input = document.getElementById('searchClientInput').value;
+/* SEARCH APPOINTMENT BASED ON MECHANIC NAME */
+function appointmentMechanicSearch() {
+    var input = document.getElementById('searchMechanicInput').value.toLowerCase();
     var found = [];
     loadJSONRequest(function (response) {
         // Parse JSON string into object
         var dataJSON = JSON.parse(response);
         for (var i = 0; i < dataJSON.length; i++) {
-            if (dataJSON[i].Afspraak.naamMonteur.includes(input)) {
+            if (dataJSON[i].Afspraak.naamMonteur.toLowerCase().includes(input)) {
                 var obj = dataJSON[i];
                 found.push(obj);
             }
@@ -125,8 +125,8 @@ const importJSONButton = document.getElementById('importJSONButon');
 importJSONButton.addEventListener('click', event => {
     getDefaultAfspraken();
 });
-const searchButton = document.getElementById('searchClientButton');
+const searchButton = document.getElementById('searchMechanicButton');
 
 searchButton.addEventListener('click', event => {
-    afspraakZoeken();
+    appointmentMechanicSearch();
 });
