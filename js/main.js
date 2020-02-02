@@ -95,29 +95,6 @@ function generateTable(sortedDataJson) {
 */
 
 /* 
-    US 4 START
-*/
-/* SEARCH APPOINTMENT BASED ON CLIENT NAME */
-function afspraakZoeken() {
-    var input = document.getElementById('searchClientInput').value;
-    var found = [];
-    loadJSONRequest(function (response) {
-        // Parse JSON string into object
-        var dataJSON = JSON.parse(response);
-        for (var i = 0; i < dataJSON.length; i++) {
-            if (dataJSON[i].Afspraak.naamMonteur.includes(input)) {
-                var obj = dataJSON[i];
-                found.push(obj);
-            }
-        }
-        generateTable(found);
-    });
-}
-/* 
-    US 4 END
-*/
-
-/* 
     US 2 START
 */
 /* POST JSON REQUEST */
@@ -158,6 +135,29 @@ function postAfspraak() {
 }
 /* 
     US 2 END
+*/
+
+/* 
+    US 4 START
+*/
+/* SEARCH APPOINTMENT BASED ON CLIENT NAME */
+function afspraakZoeken() {
+    var input = document.getElementById('searchClientInput').value;
+    var found = [];
+    loadJSONRequest(function (response) {
+        // Parse JSON string into object
+        var dataJSON = JSON.parse(response);
+        for (var i = 0; i < dataJSON.length; i++) {
+            if (dataJSON[i].Afspraak.naamMonteur.includes(input)) {
+                var obj = dataJSON[i];
+                found.push(obj);
+            }
+        }
+        generateTable(found);
+    });
+}
+/* 
+    US 4 END
 */
 
 /* ASSIGN CLICK LISTENER TO BUTTON */
