@@ -10,23 +10,17 @@
 </head>
 
 <body>
-
-
-
-
-
-
-<nav id="topnav">
-    <button id="importJSON">Import afspraken</button>
-    <div id="afspraakzoekendiv">
-        <h4>Zoek op monteur</h4>
-        <input>
-        <button id="afspraakZoeken">zoeken</button>
-    </div>
-        </nav>
-        <div id="data">
+    <div class="wrapper">
+        <div class="box">
+            <button id="importJSONButon" class="button">Import afspraken</button>
         </div>
-        <script src="js/main.js"></script>
+        <div class="box">
+            <input type="text" id="searchClientInput">
+            <button id="searchClientButton" class="button">Zoeken</button>
+        </div>
+    </div>
+    <div id="data"></div>
+    <script src="js/main.js"></script>
 </body>
 
 </html>

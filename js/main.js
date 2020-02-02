@@ -19,7 +19,7 @@ function getDefaultAfspraken() {
         const dataJSON = JSON.parse(response);
         // Sort array
         selectionSort(dataJSON);
-        
+
         // /* TEST CONSOLE LOG */
         // console.log(dataJSON);
         // setTimeout(function(){
@@ -30,17 +30,17 @@ function getDefaultAfspraken() {
 }
 
 /* SELECTION SORT ARRAY */
-function selectionSort(dataJSON){
+function selectionSort(dataJSON) {
     // Loop through whole array
-    for(var i = 0; i < dataJSON.length; i++){
+    for (var i = 0; i < dataJSON.length; i++) {
         // current index
         var currentIndex = i;
         // Loop from the next value of the dataJSONay
-        for(var  j = i + 1; j < dataJSON.length; j++){
+        for (var j = i + 1; j < dataJSON.length; j++) {
             var nextItem = dataJSON[j].Afspraak.gewenstTijdstip;
             var currentItem = dataJSON[currentIndex].Afspraak.gewenstTijdstip;
             // Check if next item is greater than the current item
-            if(nextItem > currentItem){
+            if (nextItem > currentItem) {
                 // If true set current index variable to that item
                 currentIndex = j;
             }
@@ -59,8 +59,11 @@ function selectionSort(dataJSON){
 
 /* GENERATE HTML TABLE WITH SORTED JSON */
 function generateTable(DataJson) {
+    // Empty data div
+    document.getElementById("data").innerHTML = '';
+
     // Make basic HTML template with table headers
-    html = '<table class="afsprakenTable">';
+    html = '<table class="table">';
     html += '<thead>' +
         '<tr>' +
         '<th>Klant naam: </th>' +
@@ -95,27 +98,25 @@ function generateTable(DataJson) {
 }
 
 /* ASSIGN CLICK LISTENER TO BUTTON */
-const importJSONButton = document.getElementById('importJSON');
+const importJSONButton = document.getElementById('importJSONButon');
 
 importJSONButton.addEventListener('click', event => {
     getDefaultAfspraken();
 });
-const searchButton = document.getElementById('afspraakZoeken');
+const searchButton = document.getElementById('searchClientButton');
 
 searchButton.addEventListener('click', event => {
     afspraakZoeken();
 });
 
 function afspraakZoeken() {
-
-var el = document.getElementById("afspraakzoekendiv").childNodes;
-var input = document.getElementsByTagName("input")[0];
-var found = [];
+    var input = document.getElementById('searchClientInput').value;
+    var found = [];
     loadJSONRequest(function (response) {
         // Parse JSON string into object
         var dataJSON = JSON.parse(response);
-        for (var i=0;i<dataJSON.length;i++){
-            if (dataJSON[i].Afspraak.naamMonteur == input.value){
+        for (var i = 0; i < dataJSON.length; i++) {
+            if (dataJSON[i].Afspraak.naamMonteur.includes(input)) {
                 var obj = dataJSON[i];
                 found.push(obj);
             }
