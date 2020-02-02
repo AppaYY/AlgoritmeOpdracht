@@ -103,7 +103,7 @@ function generateTable(sortedDataJSON) {
 
 /* POST JSON REQUEST */
 function postAfspraakRequest(callback) {
-    const els = document.getElementById('Createplandiv').getElementsByTagName('input');
+    const inputFields = document.getElementsByClassName('inputField');
 
     var xobj = new XMLHttpRequest();
     var url = 'json/defaultAfspraken.json';
@@ -118,13 +118,13 @@ function postAfspraakRequest(callback) {
     var data = JSON.stringify([{
         'Afspraak': {
             'Id': 99,
-            'naamKlant': els[0].value,
-            'adressKlant': els[1].value,
-            'gewenstTijdstip': els[2].value,
-            'dichtbijzijndeHalte': els[3].value,
-            'afstandHalte': els[4].value,
-            'redenAfspraak': els[5].value,
-            'naamMonsteur': els[6].value
+            'naamKlant': inputFields[0].value,
+            'adressKlant': inputFields[1].value,
+            'gewenstTijdstip': inputFields[2].value,
+            'dichtbijzijndeHalte': inputFields[3].value,
+            'afstandHalte': inputFields[4].value,
+            'redenAfspraak': inputFields[5].value,
+            'naamMonsteur': inputFields[6].value
         }
     }]);
     xobj.send(data);
