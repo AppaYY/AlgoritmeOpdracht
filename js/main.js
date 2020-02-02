@@ -1,3 +1,7 @@
+/* 
+    US 1 START
+*/
+/* GET REQUEST */
 function loadJSONRequest(callback) {
 
     var xobj = new XMLHttpRequest();
@@ -94,21 +98,15 @@ function generateTable(DataJson) {
         table.parentNode.removeChild(table);
     }
     document.getElementById("data").innerHTML += html;
-
 }
+/* 
+    US 1 END
+*/
 
-/* ASSIGN CLICK LISTENER TO BUTTON */
-const importJSONButton = document.getElementById('importJSONButon');
-
-importJSONButton.addEventListener('click', event => {
-    getDefaultAfspraken();
-});
-const searchButton = document.getElementById('searchClientButton');
-
-searchButton.addEventListener('click', event => {
-    afspraakZoeken();
-});
-
+/* 
+    US 3 START
+*/
+/* SEARCH APPOINTMENT BASED ON CLIENT NAME */
 function afspraakZoeken() {
     var input = document.getElementById('searchClientInput').value;
     var found = [];
@@ -124,3 +122,18 @@ function afspraakZoeken() {
         generateTable(found);
     });
 }
+/* 
+    US 3 END
+*/
+
+/* ASSIGN CLICK LISTENER TO BUTTON */
+const importJSONButton = document.getElementById('importJSONButon');
+
+importJSONButton.addEventListener('click', event => {
+    getDefaultAfspraken();
+});
+const searchButton = document.getElementById('searchClientButton');
+
+searchButton.addEventListener('click', event => {
+    afspraakZoeken();
+});
