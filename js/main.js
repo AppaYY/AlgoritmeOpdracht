@@ -1,16 +1,7 @@
-/* ASSIGN CLICK LISTENER TO BUTTON */
-const importJSONButton = document.getElementById('importJSON');
-const createPlanButton = document.getElementById('createPlan');
-
-importJSONButton.addEventListener('click', event => {
-    getDefaultAfspraken();
-});
-
-createPlanButton.addEventListener('click', event => {
-    postAfspraakSuccess();
-});
-
-/* GET JSON REQUEST */
+/* 
+    US 1 START
+*/
+/* GET REQUEST */
 function loadJSONRequest(callback) {
     var xobj = new XMLHttpRequest();
     xobj.overrideMimeType('application/json');
@@ -31,13 +22,6 @@ function getDefaultAfspraken() {
         const dataJSON = JSON.parse(response);
         // Sort array
         selectionSort(dataJSON);
-
-        // /* TEST CONSOLE LOG */
-        // console.log(dataJSON);
-        // setTimeout(function(){ 
-        //     /* SELECTION SORT */
-        //     selectionSort(dataJSON);
-        // }, 3000);
     });
 }
 
@@ -53,7 +37,7 @@ function selectionSort(dataJSON) {
             var currentItem = dataJSON[currentIndex].Afspraak.gewenstTijdstip;
             // Check if next item is greater than the current item
             if (nextItem > currentItem) {
-                // If true set current index variable to that item 
+                // If true set current index variable to that item
                 currentIndex = j;
             }
         }
@@ -69,8 +53,11 @@ function selectionSort(dataJSON) {
 }
 
 /* GENERATE HTML TABLE WITH SORTED JSON */
-function generateTable(sortedDataJSON) {
-    // Make basic HTML template with table headers 
+function generateTable(sortedDataJson) {
+    // Empty data div
+    document.getElementById("data").innerHTML = '';
+
+    // Make basic HTML template with table headers
     html = '<table class="table">';
     html += '<thead>' +
         '<tr>' +
@@ -84,22 +71,51 @@ function generateTable(sortedDataJSON) {
         '</tr>' +
         '</thead>';
     // Loop through array and add table cells
-    for (var i = 0; i < sortedDataJSON.length; i++) {
+    for (var i = 0; i < sortedDataJson.length; i++) {
         html += '<tr>' +
-            '<td>' + sortedDataJSON[i].Afspraak.naamKlant + '</td>' +
-            '<td>' + sortedDataJSON[i].Afspraak.adresKlant + '</td>' +
-            '<td>' + sortedDataJSON[i].Afspraak.gewenstTijdstip + '</td>' +
-            '<td>' + sortedDataJSON[i].Afspraak.dichtsbijzijndeHalte + '</td>' +
-            '<td>' + sortedDataJSON[i].Afspraak.afstandHalte + '</td>' +
-            '<td>' + sortedDataJSON[i].Afspraak.redenAfspraak + '</td>' +
-            '<td>' + sortedDataJSON[i].Afspraak.naamMonteur + '</td>' +
+            '<td>' + sortedDataJson[i].Afspraak.naamKlant + '</td>' +
+            '<td>' + sortedDataJson[i].Afspraak.adresKlant + '</td>' +
+            '<td>' + sortedDataJson[i].Afspraak.gewenstTijdstip + '</td>' +
+            '<td>' + sortedDataJson[i].Afspraak.dichtsbijzijndeHalte + '</td>' +
+            '<td>' + sortedDataJson[i].Afspraak.afstandHalte + '</td>' +
+            '<td>' + sortedDataJson[i].Afspraak.redenAfspraak + '</td>' +
+            '<td>' + sortedDataJson[i].Afspraak.naamMonteur + '</td>' +
             '</tr>';
     }
     html += '</table>';
 
-    // Insert HTML table in div
-    document.getElementById('data').innerHTML += html;
+    var table = document.getElementsByClassName("afsprakenTable")[0];
+    if (table != undefined) {
+        table.parentNode.removeChild(table);
+    }
+    document.getElementById("data").innerHTML += html;
 }
+/* 
+    US 1 END
+*/
+
+/* 
+    US 4 START
+*/
+/* SEARCH APPOINTMENT BASED ON CLIENT NAME */
+function afspraakZoeken() {
+    var input = document.getElementById('searchClientInput').value;
+    var found = [];
+    loadJSONRequest(function (response) {
+        // Parse JSON string into object
+        var dataJSON = JSON.parse(response);
+        for (var i = 0; i < dataJSON.length; i++) {
+            if (dataJSON[i].Afspraak.naamMonteur.includes(input)) {
+                var obj = dataJSON[i];
+                found.push(obj);
+            }
+        }
+        generateTable(found);
+    });
+}
+/* 
+    US 4 END
+*/
 
 /* POST JSON REQUEST */
 function postAfspraakRequest(callback) {
@@ -137,3 +153,14 @@ function postAfspraakSuccess() {
         console.log(dataJSON);
     });
 }
+/* ASSIGN CLICK LISTENER TO BUTTON */
+const importJSONButton = document.getElementById('importJSONButon');
+
+importJSONButton.addEventListener('click', event => {
+    getDefaultAfspraken();
+});
+const searchButton = document.getElementById('searchClientButton');
+
+searchButton.addEventListener('click', event => {
+    afspraakZoeken();
+});

@@ -5,15 +5,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/main.css?=v4">
     <title>Planner</title>
 </head>
 
 <body>
-    <div id="data">
-        <button id="importJSON" class="button">Import afspraken</button>
-        <br>
+    <div class="wrapper">
+        <div class="box">
+            <button id="importJSONButon" class="button">Import afspraken</button>
+        </div>
+        <div class="box">
+            <input type="text" id="searchClientInput">
+            <button id="searchClientButton" class="button">Zoeken</button>
+        </div>
     </div>
+    
+    <div id="data"></div>
+
     <div id="Createplandiv">
         <table id="inputTable" class="table">
             <tr>
@@ -49,7 +57,7 @@
             </tr>
         </table>
     </div>
-    <script src="js/main.js?v=3"></script>
+    <script src="js/main.js"></script>
 </body>
 
 </html>
