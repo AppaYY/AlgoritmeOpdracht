@@ -117,6 +117,9 @@ function afspraakZoeken() {
     US 4 END
 */
 
+/* 
+    US 2 START
+*/
 /* POST JSON REQUEST */
 function postAfspraakRequest(callback) {
     const inputFields = document.getElementsByClassName('inputField');
@@ -146,19 +149,30 @@ function postAfspraakRequest(callback) {
     xobj.send(data);
 }
 
-function postAfspraakSuccess() {
+function postAfspraak() {
     postAfspraakRequest(function (response) {
         // Parse JSON string into object
         const dataJSON = JSON.parse(response);
         console.log(dataJSON);
     });
 }
+/* 
+    US 2 END
+*/
+
 /* ASSIGN CLICK LISTENER TO BUTTON */
 const importJSONButton = document.getElementById('importJSONButon');
 
 importJSONButton.addEventListener('click', event => {
     getDefaultAfspraken();
 });
+
+const createAppointmentButton = document.getElementById('createAppointmentButton');
+
+createAppointmentButton.addEventListener('click', event => {
+    postAfspraak();
+});
+
 const searchButton = document.getElementById('searchClientButton');
 
 searchButton.addEventListener('click', event => {
