@@ -132,18 +132,14 @@ function getGVBInfo(number) {
     loadJSONRequest(function (response) {
         // Parse JSON string into object
         var dataJSON = JSON.parse(response);
-        // console.log(dataJSON[number]);
-        // console.log(dataJSON[number].Network[0]);
         // for (let i = 0; i < dataJSON[0].length; i++) {
         //     arrayStopsNumbers.push(dataJSON[0].);
         // }
-        var networkData = dataJSON[number].Network;
-        for (var propName in networkData) {
-            if (networkData.hasOwnProperty(propName)) {
-                var propValue = networkData[propName];
-                console.log(propValue);
-            }
-        }
+
+        const firstNetworkKey = Object.keys(dataJSON[number].Network)[0];
+
+        console.log(dataJSON[number].Network[firstNetworkKey]);
+        
 
     }, 'GVB/' + number + '.json');
 }
@@ -156,9 +152,10 @@ const importJSONButton = document.getElementById('importJSONButon');
 
 importJSONButton.addEventListener('click', event => {
     getDefaultAfspraken();
-    for (let i = 0; i < arrayGVBNumbers.length; i++) {
-        getGVBInfo(arrayGVBNumbers[i]);
-    }
+    getGVBInfo(arrayGVBNumbers[0])
+    // for (let i = 0; i < arrayGVBNumbers.length; i++) {
+    //     getGVBInfo(arrayGVBNumbers[i]);
+    // }
 });
 const searchButton = document.getElementById('searchMechanicButton');
 
