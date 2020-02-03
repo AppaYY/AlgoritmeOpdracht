@@ -2,7 +2,7 @@
     GLOBAL VARIABLES
 */
 const arrayGVBNumbers = ['GVB_1_1', 'GVB_2_1', 'GVB_3_1', 'GVB_4_1', 'GVB_5_1', 'GVB_7_1', 'GVB_11_1', 'GVB_12_1', 'GVB_13_1', 'GVB_14_1', 'GVB_17_1', 'GVB_19_1', 'GVB_24_1', 'GVB_26_1', 'GVB_50_1', 'GVB_51_1', 'GVB_52_1', 'GVB_53_1', 'GVB_54_1', ];
-var arrayStopsNumbers = [];
+var arrayStops = [];
 
 /* 
     US 1 START
@@ -132,13 +132,18 @@ function getGVBInfo(number) {
     loadJSONRequest(function (response) {
         // Parse JSON string into object
         var dataJSON = JSON.parse(response);
-        // for (let i = 0; i < dataJSON[0].length; i++) {
-        //     arrayStopsNumbers.push(dataJSON[0].);
-        // }
-
         const firstNetworkKey = Object.keys(dataJSON[number].Network)[0];
+        var objective = dataJSON[number].Network[firstNetworkKey];
+           //console.log(objective);
+        var objectKeys = Object.keys(objective);
+        console.log(number);
+        for (let i = 1; i < (objectKeys.length + 1); i++) {
+            console.log(objective[i].TimingPointName);
+            var stopName = objective[i].TimingPointName;
+            arrayStops.push(stopName);
+        } 
+        //console.log(arrayStops);
 
-        console.log(dataJSON[number].Network[firstNetworkKey]);
         
 
     }, 'GVB/' + number + '.json');
@@ -152,10 +157,11 @@ const importJSONButton = document.getElementById('importJSONButon');
 
 importJSONButton.addEventListener('click', event => {
     getDefaultAfspraken();
-    getGVBInfo(arrayGVBNumbers[0])
-    // for (let i = 0; i < arrayGVBNumbers.length; i++) {
-    //     getGVBInfo(arrayGVBNumbers[i]);
-    // }
+    //getGVBInfo(arrayGVBNumbers[0])
+    for (let i = 0; i < arrayGVBNumbers.length; i++) {
+        getGVBInfo(arrayGVBNumbers[i]);
+    }
+
 });
 const searchButton = document.getElementById('searchMechanicButton');
 
