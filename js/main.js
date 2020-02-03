@@ -174,14 +174,14 @@ function sortAppointments(){
             items[rightIndex] = temp;
         }
         function partition(items, left, right) {
-            var pivot   = items[Math.floor((right + left) / 2)], //middle element
+            var pivot   = items[Math.floor((right + left) / 2)].Afspraak.namevalue, //middle element
                 i       = left, //left pointer
                 j       = right; //right pointer
             while (i <= j) {
-                while (items[i] < pivot) {
+                while (items[i].Afspraak.namevalue < pivot) {
                     i++;
                 }
-                while (items[j] > pivot) {
+                while (items[j].Afspraak.namevalue > pivot) {
                     j--;
                 }
                 if (i <= j) {
@@ -207,7 +207,8 @@ function sortAppointments(){
             return items;
         }
 // first call to quick sort
-        var sortedArray = quickSort(items, 0, items.length - 1);
+       // var sortedArray = quickSort(items, 0, items.length - 1);
+        var sortedArray = quickSort(dataJSON, 0, dataJSON.length - 1);
         console.log(sortedArray); //prints [2,3,5,6,7,9]
 
 
