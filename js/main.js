@@ -102,18 +102,22 @@ function generateTable(sortedDataJson) {
 /* SEARCH APPOINTMENT BASED ON MECHANIC NAME */
 function appointmentMechanicSearch() {
     var input = document.getElementById('searchMechanicInput').value.toLowerCase();
-    var found = [];
-    loadJSONRequest(function (response) {
-        // Parse JSON string into object
-        var dataJSON = JSON.parse(response);
-        for (var i = 0; i < dataJSON.length; i++) {
-            if (dataJSON[i].Afspraak.naamMonteur.toLowerCase().includes(input)) {
-                var obj = dataJSON[i];
-                found.push(obj);
+    if (input != "") {
+        var found = [];
+        loadJSONRequest(function (response) {
+            // Parse JSON string into object
+            var dataJSON = JSON.parse(response);
+            for (var i = 0; i < dataJSON.length; i++) {
+                if (dataJSON[i].Afspraak.naamMonteur.toLowerCase().includes(input)) {
+                    var obj = dataJSON[i];
+                    found.push(obj);
+                }
             }
-        }
-        generateTable(found);
-    });
+            generateTable(found);
+        });
+    }else{
+        window.alert("Je moet een naam invoeren");
+    }
 }
 /*
     US 4 END
@@ -136,25 +140,27 @@ sortAppointmentButton.addEventListener('click', event => {
     sortAppointments();
 });
 
+const searchCostumerNameButton = document.getElementById('searchCostumerButton');
+
+searchCostumerNameButton.addEventListener('click', event => {
+    costumerNameSearch();
+});
+
 function sortAppointments(){
     loadJSONRequest(function (response) {
         // Parse JSON string into object
         var dataJSON = JSON.parse(response);
-        console.log(dataJSON);
         var a = 97;
         var charArray = {};
         for (var i = 0; i<27; i++){
             charArray[String.fromCharCode(a + i)] = i;
             if (i == 26){
-                console.log(26);
                 charArray["."] = 0;
             }
         }
-
         for (var i=0; i<dataJSON.length; i++){
             var namevalue = 0;
             var naam = dataJSON[i].Afspraak.naamKlant;
-
             for(var y=0; y <naam.length;y++){
                 for (var p=0;p < Object.keys(charArray).length;p++){
                     if (dataJSON[i].Afspraak.naamKlant.charAt(y) == Object.keys(charArray)[p]){
@@ -163,11 +169,9 @@ function sortAppointments(){
                     }
                 }
             }
-            console.log(dataJSON[i]);
-
         }
 
-        var items = [5,3,7,6,2,9];
+
         function swap(items, leftIndex, rightIndex){
             var temp = items[leftIndex];
             items[leftIndex] = items[rightIndex];
@@ -206,14 +210,27 @@ function sortAppointments(){
             }
             return items;
         }
-// first call to quick sort
-       // var sortedArray = quickSort(items, 0, items.length - 1);
-        var sortedArray = quickSort(dataJSON, 0, dataJSON.length - 1);
-        console.log(sortedArray); //prints [2,3,5,6,7,9]
-
-
-
-
+generateTable(quickSort(dataJSON, 0, dataJSON.length - 1));
 
     });
+}
+function costumerNameSearch() {
+    var input = document.getElementById('searchCostumerInput').value.toLowerCase();
+    if (input != ""){
+    var found = [];
+    loadJSONRequest(function (response) {
+        // Parse JSON string into object
+        var dataJSON = JSON.parse(response);
+        for (var i = 0; i < dataJSON.length; i++) {
+            if (dataJSON[i].Afspraak.naamKlant.toLowerCase().includes(input)) {
+                var obj = dataJSON[i];
+                found.push(obj);
+            }
+        }
+        generateTable(found);
+
+    });
+    }else{
+        window.alert("Je moet een naam invoeren");
+    }
 }
