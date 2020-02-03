@@ -1,4 +1,10 @@
 /* 
+    GLOBAL VARIABLES
+*/
+const arrayGVBNumbers = ['GVB_1_1', 'GVB_2_1', 'GVB_3_1', 'GVB_4_1', 'GVB_5_1', 'GVB_7_1', 'GVB_11_1', 'GVB_12_1', 'GVB_13_1', 'GVB_14_1', 'GVB_17_1', 'GVB_19_1', 'GVB_24_1', 'GVB_26_1', 'GVB_50_1', 'GVB_51_1', 'GVB_52_1', 'GVB_53_1', 'GVB_54_1', ];
+var arrayStopsNumbers = [];
+
+/* 
     US 1 START
 */
 /* GET REQUEST */
@@ -126,8 +132,20 @@ function getGVBInfo(number) {
     loadJSONRequest(function (response) {
         // Parse JSON string into object
         var dataJSON = JSON.parse(response);
-        console.log(dataJSON);
-    }, 'GVB/GVB_' + number + '_1.json');
+        // console.log(dataJSON[number]);
+        // console.log(dataJSON[number].Network[0]);
+        // for (let i = 0; i < dataJSON[0].length; i++) {
+        //     arrayStopsNumbers.push(dataJSON[0].);
+        // }
+        var networkData = dataJSON[number].Network;
+        for (var propName in networkData) {
+            if (networkData.hasOwnProperty(propName)) {
+                var propValue = networkData[propName];
+                console.log(propValue);
+            }
+        }
+
+    }, 'GVB/' + number + '.json');
 }
 /* 
     US 5 END
@@ -138,27 +156,9 @@ const importJSONButton = document.getElementById('importJSONButon');
 
 importJSONButton.addEventListener('click', event => {
     getDefaultAfspraken();
-
-    getGVBInfo("1");
-    getGVBInfo("2");
-    getGVBInfo("3");
-    getGVBInfo("4");
-    getGVBInfo("5");
-    getGVBInfo("7");
-    getGVBInfo("11");
-    getGVBInfo("12");
-    getGVBInfo("13");
-    getGVBInfo("14");
-    getGVBInfo("17");
-    getGVBInfo("19");
-    getGVBInfo("24");
-    getGVBInfo("26");
-    getGVBInfo("50");
-    getGVBInfo("51");
-    getGVBInfo("52");
-    getGVBInfo("53");
-    getGVBInfo("54");
-
+    for (let i = 0; i < arrayGVBNumbers.length; i++) {
+        getGVBInfo(arrayGVBNumbers[i]);
+    }
 });
 const searchButton = document.getElementById('searchMechanicButton');
 
