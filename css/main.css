@@ -53,10 +53,6 @@ body {
     margin: 10px 70px 70px;
 }
 
-#inputTable {
-    width: auto;
-}
-
 .table {
 	border-radius: 5px;
     font-size: 12px;
@@ -100,6 +96,15 @@ body {
 .table td {
     border-right: 1px solid #f8f8f8;
     font-size: 12px;
+}
+
+/* Input */
+#CreateAppointmentdiv {
+    display: none;
+}
+
+#inputTable {
+    width: auto;
 }
 
 .inputField {

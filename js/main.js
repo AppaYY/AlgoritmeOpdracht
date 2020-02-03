@@ -58,7 +58,7 @@ function generateTable(sortedDataJson) {
     document.getElementById("data").innerHTML = '';
 
     // Make basic HTML template with table headers
-    html = '<table class="table">';
+    html = '<table id="appointmentTable" class="table">';
     html += '<thead>' +
         '<tr>' +
         '<th>Klant naam: </th>' +
@@ -89,6 +89,8 @@ function generateTable(sortedDataJson) {
         table.parentNode.removeChild(table);
     }
     document.getElementById("data").innerHTML += html;
+    // Display input fields
+    document.getElementById('CreateAppointmentdiv').style.display = 'block';
 }
 /* 
     US 1 END
@@ -97,41 +99,18 @@ function generateTable(sortedDataJson) {
 /* 
     US 2 START
 */
-/* POST JSON REQUEST */
-function postAfspraakRequest(callback) {
+/* INSERT NEW ROW */
+function insertNewRow() {
     const inputFields = document.getElementsByClassName('inputField');
+    const appointmentTable = document.getElementById('appointmentTable');
+    const tableRowCount = appointmentTable.rows.length;
+    const row = appointmentTable.insertRow(tableRowCount);
 
-    var xobj = new XMLHttpRequest();
-    var url = 'json/defaultAfspraken.json';
-    xobj.open('POST', url, true);
-    xobj.setRequestHeader('Content-Type', 'application/json');
-    xobj.onreadystatechange = function () {
-        if (xobj.readyState == 4 && xobj.status == '200') {
-            // Required use of an anonymous callback as .open will NOT return a value but simply returns undefined in asynchronous mode
-            callback(xobj.responseText);
-        }
-    };
-    var data = JSON.stringify([{
-        'Afspraak': {
-            'Id': 99,
-            'naamKlant': inputFields[0].value,
-            'adressKlant': inputFields[1].value,
-            'gewenstTijdstip': inputFields[2].value,
-            'dichtbijzijndeHalte': inputFields[3].value,
-            'afstandHalte': inputFields[4].value,
-            'redenAfspraak': inputFields[5].value,
-            'naamMonsteur': inputFields[6].value
-        }
-    }]);
-    xobj.send(data);
-}
-
-function postAfspraak() {
-    postAfspraakRequest(function (response) {
-        // Parse JSON string into object
-        const dataJSON = JSON.parse(response);
-        console.log(dataJSON);
-    });
+    for (let i = 0; i < 7; i++) {
+        var cell = row.insertCell(i);
+        cell.innerHTML = inputFields[i].value;
+    }
+    
 }
 /* 
     US 2 END
@@ -170,7 +149,7 @@ importJSONButton.addEventListener('click', event => {
 const createAppointmentButton = document.getElementById('createAppointmentButton');
 
 createAppointmentButton.addEventListener('click', event => {
-    postAfspraak();
+    insertNewRow();
 });
 
 const searchButton = document.getElementById('searchClientButton');
