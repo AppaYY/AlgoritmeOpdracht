@@ -1,6 +1,7 @@
 /*
     US 1 START
 */
+
 /* GET REQUEST */
 function loadJSONRequest(callback) {
 
@@ -92,13 +93,134 @@ function generateTable(sortedDataJson) {
     }
     document.getElementById("data").innerHTML += html;
 }
+
 /*
     US 1 END
 */
+/*
+    US 3 START
+ */
+sortAppointmentButton.addEventListener('click', event => {
+    sortAppointments();
+});
 
+const searchCostumerNameButton = document.getElementById('searchCostumerButton');
+
+searchCostumerNameButton.addEventListener('click', event => {
+    costumerNameSearch();
+});
+
+function sortAppointments() {
+    loadJSONRequest(function (response) {
+        // Parse JSON string into object
+        var dataJSON = JSON.parse(response);
+        //hash table length
+        var a = 97;
+        //array containing hashtable
+        var charArray = {};
+        for (var i = 0; i < 27; i++) {
+            //assign value based on position
+            charArray[String.fromCharCode(a + i)] = i;
+            if (i == 26) {
+                //add dot to hashtable
+                charArray["."] = 0;
+            }
+        }
+        //assign value to each letter in naamKlant and push naamvalue into the afspraak object
+        for (var i = 0; i < dataJSON.length; i++) {
+            var namevalue = 0;
+            var naam = dataJSON[i].Afspraak.naamKlant;
+            for (var y = 0; y < naam.length; y++) {
+                for (var p = 0; p < Object.keys(charArray).length; p++) {
+                    if (dataJSON[i].Afspraak.naamKlant.charAt(y) == Object.keys(charArray)[p]) {
+                        namevalue = namevalue + charArray[Object.keys(charArray)[p]];
+                        dataJSON[i].Afspraak.namevalue = namevalue;
+                    }
+                }
+            }
+        }
+
+
+        function swap(items, leftIndex, rightIndex) {
+            // assign index places
+            var temp = items[leftIndex];
+            items[leftIndex] = items[rightIndex];
+            items[rightIndex] = temp;
+        }
+
+        function partition(items, left, right) {
+            //assign pivoting element
+            var pivot = items[Math.floor((right + left) / 2)].Afspraak.namevalue,
+                //assign left and right vlue
+                i = left,
+                j = right;
+            while (i <= j) {
+                // if items are less then pivot assign to left
+                while (items[i].Afspraak.namevalue < pivot) {
+                    i++;
+                }
+                //if items are more than pivot assign to right
+                while (items[j].Afspraak.namevalue > pivot) {
+                    j--;
+                }
+                if (i <= j) {
+                    //if two items arent in order swap them
+                    swap(items, i, j); //sawpping two elements
+                    i++;
+                    j--;
+                }
+            }
+            //return index
+            return i;
+        }
+
+        function quickSort(items, left, right) {
+            var index;
+            if (items.length > 1) {
+                index = partition(items, left, right); //index returned from partition
+                if (left < index - 1) { //more elements on the left side of the pivot
+                    quickSort(items, left, index - 1);
+                }
+                if (index < right) { //more elements on the right side of the pivot
+                    quickSort(items, index, right);
+                }
+            }
+            return items;
+        }
+
+        generateTable(quickSort(dataJSON, 0, dataJSON.length - 1));
+
+    });
+}
+
+function costumerNameSearch() {
+    var input = document.getElementById('searchCostumerInput').value.toLowerCase();
+    if (input != "") {
+        var found = [];
+        loadJSONRequest(function (response) {
+            // Parse JSON string into object
+            var dataJSON = JSON.parse(response);
+            // match name & push into element
+            for (var i = 0; i < dataJSON.length; i++) {
+                if (dataJSON[i].Afspraak.naamKlant.toLowerCase().includes(input)) {
+                    var obj = dataJSON[i];
+                    found.push(obj);
+                }
+            }
+            generateTable(found);
+
+        });
+    } else {
+        window.alert("Je moet een naam invoeren");
+    }
+}
+/*
+    US 3 END
+ */
 /*
     US 4 START
 */
+
 /* SEARCH APPOINTMENT BASED ON MECHANIC NAME */
 function appointmentMechanicSearch() {
     var input = document.getElementById('searchMechanicInput').value.toLowerCase();
@@ -115,10 +237,11 @@ function appointmentMechanicSearch() {
             }
             generateTable(found);
         });
-    }else{
+    } else {
         window.alert("Je moet een naam invoeren");
     }
 }
+
 /*
     US 4 END
 */
@@ -136,101 +259,3 @@ searchButton.addEventListener('click', event => {
 });
 const sortAppointmentButton = document.getElementById('sortAppointmentButton');
 
-sortAppointmentButton.addEventListener('click', event => {
-    sortAppointments();
-});
-
-const searchCostumerNameButton = document.getElementById('searchCostumerButton');
-
-searchCostumerNameButton.addEventListener('click', event => {
-    costumerNameSearch();
-});
-
-function sortAppointments(){
-    loadJSONRequest(function (response) {
-        // Parse JSON string into object
-        var dataJSON = JSON.parse(response);
-        var a = 97;
-        var charArray = {};
-        for (var i = 0; i<27; i++){
-            charArray[String.fromCharCode(a + i)] = i;
-            if (i == 26){
-                charArray["."] = 0;
-            }
-        }
-        for (var i=0; i<dataJSON.length; i++){
-            var namevalue = 0;
-            var naam = dataJSON[i].Afspraak.naamKlant;
-            for(var y=0; y <naam.length;y++){
-                for (var p=0;p < Object.keys(charArray).length;p++){
-                    if (dataJSON[i].Afspraak.naamKlant.charAt(y) == Object.keys(charArray)[p]){
-                        namevalue = namevalue + charArray[Object.keys(charArray)[p]];
-                        dataJSON[i].Afspraak.namevalue = namevalue;
-                    }
-                }
-            }
-        }
-
-
-        function swap(items, leftIndex, rightIndex){
-            var temp = items[leftIndex];
-            items[leftIndex] = items[rightIndex];
-            items[rightIndex] = temp;
-        }
-        function partition(items, left, right) {
-            var pivot   = items[Math.floor((right + left) / 2)].Afspraak.namevalue, //middle element
-                i       = left, //left pointer
-                j       = right; //right pointer
-            while (i <= j) {
-                while (items[i].Afspraak.namevalue < pivot) {
-                    i++;
-                }
-                while (items[j].Afspraak.namevalue > pivot) {
-                    j--;
-                }
-                if (i <= j) {
-                    swap(items, i, j); //sawpping two elements
-                    i++;
-                    j--;
-                }
-            }
-            return i;
-        }
-
-        function quickSort(items, left, right) {
-            var index;
-            if (items.length > 1) {
-                index = partition(items, left, right); //index returned from partition
-                if (left < index - 1) { //more elements on the left side of the pivot
-                    quickSort(items, left, index - 1);
-                }
-                if (index < right) { //more elements on the right side of the pivot
-                    quickSort(items, index, right);
-                }
-            }
-            return items;
-        }
-generateTable(quickSort(dataJSON, 0, dataJSON.length - 1));
-
-    });
-}
-function costumerNameSearch() {
-    var input = document.getElementById('searchCostumerInput').value.toLowerCase();
-    if (input != ""){
-    var found = [];
-    loadJSONRequest(function (response) {
-        // Parse JSON string into object
-        var dataJSON = JSON.parse(response);
-        for (var i = 0; i < dataJSON.length; i++) {
-            if (dataJSON[i].Afspraak.naamKlant.toLowerCase().includes(input)) {
-                var obj = dataJSON[i];
-                found.push(obj);
-            }
-        }
-        generateTable(found);
-
-    });
-    }else{
-        window.alert("Je moet een naam invoeren");
-    }
-}
