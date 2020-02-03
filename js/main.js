@@ -2,11 +2,10 @@
     US 1 START
 */
 /* GET REQUEST */
-function loadJSONRequest(callback) {
-
+function loadJSONRequest(callback, URL) {
     var xobj = new XMLHttpRequest();
     xobj.overrideMimeType('application/json');
-    xobj.open('GET', 'json/defaultAfspraken.json', true);
+    xobj.open('GET', 'json/' + URL, true);
     xobj.onreadystatechange = function () {
         if (xobj.readyState == 4 && xobj.status == '200') {
             // Required use of an anonymous callback as .open will NOT return a value but simply returns undefined in asynchronous mode
@@ -23,7 +22,7 @@ function getDefaultAfspraken() {
         const dataJSON = JSON.parse(response);
         // Sort array
         selectionSort(dataJSON);
-    });
+    }, 'defaultAfspraken.json');
 }
 
 /* SELECTION SORT ARRAY */
@@ -113,10 +112,25 @@ function appointmentMechanicSearch() {
             }
         }
         generateTable(found);
-    });
+    }, 'defaultAfspraken.json');
 }
 /* 
     US 4 END
+*/
+
+/* 
+    US 5 START
+*/
+/* SEARCH APPOINTMENT BASED ON MECHANIC NAME */
+function getGVBInfo(number) {
+    loadJSONRequest(function (response) {
+        // Parse JSON string into object
+        var dataJSON = JSON.parse(response);
+        console.log(dataJSON);
+    }, 'GVB/GVB_' + number + '_1.json');
+}
+/* 
+    US 5 END
 */
 
 /* ASSIGN CLICK LISTENER TO BUTTON */
@@ -124,6 +138,27 @@ const importJSONButton = document.getElementById('importJSONButon');
 
 importJSONButton.addEventListener('click', event => {
     getDefaultAfspraken();
+
+    getGVBInfo("1");
+    getGVBInfo("2");
+    getGVBInfo("3");
+    getGVBInfo("4");
+    getGVBInfo("5");
+    getGVBInfo("7");
+    getGVBInfo("11");
+    getGVBInfo("12");
+    getGVBInfo("13");
+    getGVBInfo("14");
+    getGVBInfo("17");
+    getGVBInfo("19");
+    getGVBInfo("24");
+    getGVBInfo("26");
+    getGVBInfo("50");
+    getGVBInfo("51");
+    getGVBInfo("52");
+    getGVBInfo("53");
+    getGVBInfo("54");
+
 });
 const searchButton = document.getElementById('searchMechanicButton');
 
