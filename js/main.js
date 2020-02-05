@@ -142,34 +142,24 @@ function getGVBInfo(number) {
         for (let i = 1; i < (objectKeys.length + 1); i++) {
            // console.log(objective[i].TimingPointName);
             var stopName = objective[i].TimingPointName;
+            // console.log(arrayStops.includes(stopName) + ' ' + stopName);
             
-            if(arrayStops.length <= i){
+            if (arrayStops.includes(stopName) === false) {
                 arrayStops.push(stopName);
-                console.log(objective[i]);
-                if(arrayStops[i] !== stopName){
-                    console.log("Push");
-                    
-                }
-                // for(let x = 0; x < arrayStops.length; x++) {
-                //     if(stopName !== arrayStops[x]){
-                        
-                //     }   
-                // }
             }
         } 
         
         populateStarts();
+        populateStops();
         //console.log(arrayStops);
         
 
     }, 'GVB/' + number + '.json');
 
 }
-var dataJSONResponse = '';
-var startDropdown = document.getElementById('searchStartPointDropdown');
-var stopDropdown = document.getElementById('searchEndPointDropdown')
 
 function populateStarts(){
+    var startDropdown = document.getElementById('searchStartPointDropdown');
     var startOptions = '';
 
     for(var i = 0; i < arrayStops.length; i++){
@@ -182,26 +172,25 @@ function populateStarts(){
     startDropdown.innerHTML = startOptions;
 };
 
-function populateStops(startIndex){
-    var StopOptions = '';
+function populateStops(){
     loadJSONRequest(function (response) {
         // Parse JSON string into object
         const dataJSON = JSON.parse(response);
-        dataJSONResponse = dataJSON;
-        // Sort array 
-        selectionSort(dataJSON);
+        generateOptionElements(dataJSON);
     }, 'defaultAfspraken.json');
-   
+};
+
+function generateOptionElements(dataJSONResponse) {
+    var stopDropdown = document.getElementById('searchEndPointDropdown');
+    var StopOptions = '';
+
     for(var i = 0; i < dataJSONResponse.length; i++){
         var option = document.createElement('option');
-        option.innerHTML = dataJSONResponse.Afspraak.dichtsbijzijndeHalte[i];
+        option.innerHTML = dataJSONResponse[i].Afspraak.dichtsbijzijndeHalte;
         StopOptions += option.outerHTML;
     }
     stopDropdown.innerHTML = StopOptions;
-};
-
-
-populateStops(0);
+}
 
 /* 
     US 5 END
@@ -210,18 +199,16 @@ populateStops(0);
 /* ASSIGN CLICK LISTENER TO BUTTON */
 const importJSONButton = document.getElementById('importJSONButon');
 
-
-    
 importJSONButton.addEventListener('click', event => {
     getDefaultAfspraken();
-    //getGVBInfo(arrayGVBNumbers[0])
-    for (let i = 0; i < arrayGVBNumbers.length; i++) {
-        getGVBInfo(arrayGVBNumbers[i]);
-    }
-
 });
 const searchButton = document.getElementById('searchMechanicButton');
 
 searchButton.addEventListener('click', event => {
     appointmentMechanicSearch();
 });
+
+//getGVBInfo(arrayGVBNumbers[0])
+for (let i = 0; i < arrayGVBNumbers.length; i++) {
+    getGVBInfo(arrayGVBNumbers[i]);
+}
