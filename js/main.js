@@ -1,8 +1,10 @@
 /* 
     GLOBAL VARIABLES
 */
-const arrayGVBNumbers = ['GVB_1_1', 'GVB_2_1', 'GVB_3_1', 'GVB_4_1', 'GVB_5_1', 'GVB_7_1', 'GVB_11_1', 'GVB_12_1', 'GVB_13_1', 'GVB_14_1', 'GVB_17_1', 'GVB_19_1', 'GVB_24_1', 'GVB_26_1', 'GVB_50_1', 'GVB_51_1', 'GVB_52_1', 'GVB_53_1', 'GVB_54_1', ];
+const arrayGVBNumbers = ['GVB_1_1', 'GVB_2_1', 'GVB_3_1', 'GVB_4_1', 'GVB_5_1', 'GVB_7_1', 'GVB_11_1', 'GVB_12_1', 'GVB_13_1', 'GVB_14_1', 'GVB_17_1', 'GVB_19_1', 'GVB_24_1', 'GVB_26_1', 'GVB_50_1', 'GVB_51_1', 'GVB_52_1', 'GVB_53_1', 'GVB_54_1',];
 var arrayStops = [];
+var startPointDropdown = document.getElementById('searchStartPointDropdown');
+var endPointDropdown = document.getElementById('searchEndPointDropdown');
 
 /* 
     US 1 START
@@ -79,7 +81,7 @@ function generateTable(sortedDataJson) {
         '</thead>';
     // Loop through array and add table cells
     for (var i = 0; i < sortedDataJson.length; i++) {
-        
+
         html += '<tr>' +
             '<td>' + sortedDataJson[i].Afspraak.naamKlant + '</td>' +
             '<td>' + sortedDataJson[i].Afspraak.adresKlant + '</td>' +
@@ -95,7 +97,7 @@ function generateTable(sortedDataJson) {
     var table = document.getElementsByClassName("afsprakenTable")[0];
     if (table != undefined) {
         table.parentNode.removeChild(table);
-        
+
     }
     document.getElementById("data").innerHTML += html;
 }
@@ -136,43 +138,52 @@ function getGVBInfo(number) {
         var dataJSON = JSON.parse(response);
         const firstNetworkKey = Object.keys(dataJSON[number].Network)[0];
         var objective = dataJSON[number].Network[firstNetworkKey];
-           //console.log(objective);
+        //console.log(objective);
         var objectKeys = Object.keys(objective);
         //console.log(number);
         for (let i = 1; i < (objectKeys.length + 1); i++) {
-           // console.log(objective[i].TimingPointName);
+            // console.log(objective[i].TimingPointName);
             var stopName = objective[i].TimingPointName;
             // console.log(arrayStops.includes(stopName) + ' ' + stopName);
-            
+
             if (arrayStops.includes(stopName) === false) {
                 arrayStops.push(stopName);
             }
-        } 
-        
+        }
+
         populateStarts();
-        populateStops();
+        populateEnds();
         //console.log(arrayStops);
-        
+
 
     }, 'GVB/' + number + '.json');
 
 }
 
-function populateStarts(){
-    var startDropdown = document.getElementById('searchStartPointDropdown');
-    var startOptions = '';
+function compareSelected() {
+    var selectedStart = startPointDropdown.value;
+    var selectedEnd = endPointDropdown.value;
+    console.log(selectedStart);
+    console.log(selectedEnd);
 
-    for(var i = 0; i < arrayStops.length; i++){
+    if (selectedEnd == selectedStart) {
+        console.log("U hebt twee dezelfde adressen ingevuld. Vul een ander adres in.");
+    }//Moeten nog een map maken
+}
+
+function populateStarts() {
+    var startPointOptions = '';
+
+    for (var i = 0; i < arrayStops.length; i++) {
         var option = document.createElement('option');
-        option.value = i;
-        option.innerHTML =  arrayStops[i];
-        startOptions += option.outerHTML;
-        
+        option.innerHTML = arrayStops[i];
+        startPointOptions += option.outerHTML;
+
     }
-    startDropdown.innerHTML = startOptions;
+    startPointDropdown.innerHTML = startPointOptions;
 };
 
-function populateStops(){
+function populateEnds() {
     loadJSONRequest(function (response) {
         // Parse JSON string into object
         const dataJSON = JSON.parse(response);
@@ -181,15 +192,14 @@ function populateStops(){
 };
 
 function generateOptionElements(dataJSONResponse) {
-    var stopDropdown = document.getElementById('searchEndPointDropdown');
-    var StopOptions = '';
+    var endPointOptions = '';
 
-    for(var i = 0; i < dataJSONResponse.length; i++){
+    for (var i = 0; i < dataJSONResponse.length; i++) {
         var option = document.createElement('option');
         option.innerHTML = dataJSONResponse[i].Afspraak.dichtsbijzijndeHalte;
-        StopOptions += option.outerHTML;
+        endPointOptions += option.outerHTML;
     }
-    stopDropdown.innerHTML = StopOptions;
+    endPointDropdown.innerHTML = endPointOptions;
 }
 
 /* 
@@ -208,7 +218,16 @@ searchButton.addEventListener('click', event => {
     appointmentMechanicSearch();
 });
 
+const compareButton = document.getElementById("dropdownButton");
+
+compareButton.addEventListener('click', event => {
+    compareSelected();
+});
+
 //getGVBInfo(arrayGVBNumbers[0])
 for (let i = 0; i < arrayGVBNumbers.length; i++) {
     getGVBInfo(arrayGVBNumbers[i]);
-}
+};
+
+
+// making  graph
