@@ -152,7 +152,6 @@ function getGVBInfo(number) {
         }
 
         populateStarts();
-        populateEnds();
         //console.log(arrayStops);
 
 
@@ -198,6 +197,8 @@ function generateOptionElements(dataJSONResponse) {
         var option = document.createElement('option');
         option.innerHTML = dataJSONResponse[i].Afspraak.dichtsbijzijndeHalte;
         endPointOptions += option.outerHTML;
+        console.log(dataJSONResponse[i].Afspraak.dichtsbijzijndeHalte);
+        
     }
     endPointDropdown.innerHTML = endPointOptions;
 }
@@ -229,5 +230,6 @@ for (let i = 0; i < arrayGVBNumbers.length; i++) {
     getGVBInfo(arrayGVBNumbers[i]);
 };
 
+populateEnds();
 
 // making  graph

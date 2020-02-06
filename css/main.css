@@ -19,7 +19,7 @@ body {
 }
 
 .box {
-    width: 400px;
+    width: 300px;
     display: inline-block;
     margin-right: 15px;
     text-align: left;
@@ -96,4 +96,9 @@ body {
 .table td {
     border-right: 1px solid #f8f8f8;
     font-size: 12px;
+}
+
+/* DROPDOWN */
+select {
+    width: 100%;
 }
