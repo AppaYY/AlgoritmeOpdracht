@@ -19,7 +19,8 @@ function loadJSONRequest(callback, URL) {
             callback(xobj.responseText);
         }
     };
-    xobj.send(null);
+    xobj.send();
+
 }
 
 /* LOAD RESPONSE */
@@ -56,7 +57,6 @@ function selectionSort(dataJSON) {
         // Use temporary variable because the current item value has been replaced
         dataJSON[currentIndex] = temporaryFirstItem;
     }
-
     generateTable(dataJSON);
 }
 
@@ -66,7 +66,7 @@ function generateTable(sortedDataJson) {
     document.getElementById("data").innerHTML = '';
 
     // Make basic HTML template with table headers
-    html = '<table class="table">';
+    html = '<table id="appointmentTable" class="table">';
     html += '<thead>' +
         '<tr>' +
         '<th>Klant naam: </th>' +
@@ -99,11 +99,55 @@ function generateTable(sortedDataJson) {
 
     }
     document.getElementById("data").innerHTML += html;
+    // Display input fields
+    document.getElementById('CreateAppointmentdiv').style.display = 'block';
+    populateClosest();
 }
 
 /*
     US 1 END
 */
+
+/* 
+    US 2 START
+*/
+/* INSERT NEW ROW */
+function insertNewRow() {
+    const inputFields = document.getElementsByClassName('inputField');
+    const appointmentTable = document.getElementById('appointmentTable');
+    const tableRowCount = appointmentTable.rows.length;
+    const row = appointmentTable.insertRow(tableRowCount);
+
+    for (let i = 0; i < 7; i++) {
+        var cell = row.insertCell(i);
+        cell.innerHTML = inputFields[i].value;
+    }
+
+}
+
+var dropdownClosest = document.getElementById('dropdownClosest');
+
+function populateClosest() {
+    loadJSONRequest(function (response) {
+        const dataJSON = JSON.parse(response);
+        generateOptionElements(dataJSON);
+    }, 'defaultAfspraken.json');
+};
+
+function generateOptionElements(dataJSONResponse) {
+    var options = '';
+
+    for (var i = 0; i < dataJSONResponse.length; i++) {
+        var option = document.createElement('option');
+        option.innerHTML = dataJSONResponse[i].Afspraak.dichtsbijzijndeHalte;
+        options += option.outerHTML;
+    }
+    dropdownClosest.innerHTML = options;
+}
+/* 
+    US 2 END
+*/
+
 /*
     US 3 START
  */
@@ -126,10 +170,10 @@ function sortAppointments() {
         //assign value to each letter in naamKlant and push naamvalue into the afspraak object
         for (var i = 0; i < dataJSON.length; i++) {
             var namevalue = 0;
-                for (var p = 0; p < Object.keys(charArray).length; p++) {
-                    // match letter to number and add number to namevalue sum
-                    if (dataJSON[i].Afspraak.naamKlant.charAt(0) === Object.keys(charArray)[p].toUpperCase()) {
-                        dataJSON[i].Afspraak['namevalue'] = charArray[Object.keys(charArray)[p]];
+            for (var p = 0; p < Object.keys(charArray).length; p++) {
+                // match letter to number and add number to namevalue sum
+                if (dataJSON[i].Afspraak.naamKlant.charAt(0) === Object.keys(charArray)[p].toUpperCase()) {
+                    dataJSON[i].Afspraak['namevalue'] = charArray[Object.keys(charArray)[p]];
                 }
             }
 
@@ -210,7 +254,8 @@ function costumerNameSearch() {
 /*
     US 3 END
  */
-/*
+
+/* 
     US 4 START
 */
 
@@ -337,3 +382,9 @@ searchCostumerNameButton.addEventListener('click', event => {
 for (let i = 0; i < arrayGVBNumbers.length; i++) {
     getGVBInfo(arrayGVBNumbers[i]);
 }
+
+const createAppointmentButton = document.getElementById('createAppointmentButton');
+
+createAppointmentButton.addEventListener('click', event => {
+    insertNewRow();
+});

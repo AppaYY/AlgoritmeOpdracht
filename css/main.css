@@ -54,7 +54,7 @@ body {
 }
 
 .table {
-    border-radius: 5px;
+	border-radius: 5px;
     font-size: 12px;
     font-weight: normal;
     border: none;
@@ -96,4 +96,17 @@ body {
 .table td {
     border-right: 1px solid #f8f8f8;
     font-size: 12px;
+}
+
+/* Input */
+#CreateAppointmentdiv {
+    display: none;
+}
+
+#inputTable {
+    width: auto;
+}
+
+.inputField {
+    width: 200px;
 }
