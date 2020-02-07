@@ -1,10 +1,10 @@
-/* 
+/*
     GLOBAL VARIABLES
 */
 const arrayGVBNumbers = ['GVB_1_1', 'GVB_2_1', 'GVB_3_1', 'GVB_4_1', 'GVB_5_1', 'GVB_7_1', 'GVB_11_1', 'GVB_12_1', 'GVB_13_1', 'GVB_14_1', 'GVB_17_1', 'GVB_19_1', 'GVB_24_1', 'GVB_26_1', 'GVB_50_1', 'GVB_51_1', 'GVB_52_1', 'GVB_53_1', 'GVB_54_1', ];
 var arrayStops = [];
 
-/* 
+/*
     US 1 START
 */
 
@@ -126,16 +126,14 @@ function sortAppointments() {
         //assign value to each letter in naamKlant and push naamvalue into the afspraak object
         for (var i = 0; i < dataJSON.length; i++) {
             var namevalue = 0;
-            var naam = dataJSON[i].Afspraak.naamKlant;
-            for (var y = 0; y < naam.length; y++) {
                 for (var p = 0; p < Object.keys(charArray).length; p++) {
+                    console.log(dataJSON[i].Afspraak.naamKlant.charAt(0)+'+'+Object.keys(charArray)[p]);
                     // match letter to number and add number to namevalue sum
-                    if (dataJSON[i].Afspraak.naamKlant.charAt(y) == Object.keys(charArray)[p]) {
-                        namevalue = namevalue + charArray[Object.keys(charArray)[p]];
-                        dataJSON[i].Afspraak.namevalue = namevalue;
-                    }
+                    if (dataJSON[i].Afspraak.naamKlant.charAt(0) === Object.keys(charArray)[p].toUpperCase()) {
+                        dataJSON[i].Afspraak['namevalue'] = charArray[Object.keys(charArray)[p]];
                 }
             }
+
         }
 
 
@@ -242,7 +240,7 @@ function appointmentMechanicSearch() {
     US 4 END
 */
 
-/* 
+/*
     US 5 START
 */
 /* SEARCH APPOINTMENT BASED ON MECHANIC NAME */
@@ -308,7 +306,7 @@ function generateOptionElements(dataJSONResponse) {
     stopDropdown.innerHTML = StopOptions;
 }
 
-/* 
+/*
     US 5 END
 */
 
