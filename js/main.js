@@ -131,6 +131,7 @@ function populateClosest() {
     loadJSONRequest(function (response) {
         const dataJSON = JSON.parse(response);
         generateOptionElements(dataJSON);
+
     }, 'defaultAfspraken.json');
 };
 
