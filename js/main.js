@@ -205,8 +205,7 @@ function costumerNameSearch() {
                 }
             }
             generateTable(found);
-
-        });
+        }, 'defaultAfspraken.json');
     } else {
         window.alert("Je moet een naam invoeren");
     }
@@ -233,7 +232,7 @@ function appointmentMechanicSearch() {
                 }
             }
             generateTable(found);
-        });
+        }, 'defaultAfspraken.json');
     } else {
         window.alert("Je moet een naam invoeren");
     }
