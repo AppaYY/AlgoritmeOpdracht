@@ -1,13 +1,18 @@
-/*
+/* 
+    GLOBAL VARIABLES
+*/
+const arrayGVBNumbers = ['GVB_1_1', 'GVB_2_1', 'GVB_3_1', 'GVB_4_1', 'GVB_5_1', 'GVB_7_1', 'GVB_11_1', 'GVB_12_1', 'GVB_13_1', 'GVB_14_1', 'GVB_17_1', 'GVB_19_1', 'GVB_24_1', 'GVB_26_1', 'GVB_50_1', 'GVB_51_1', 'GVB_52_1', 'GVB_53_1', 'GVB_54_1', ];
+var arrayStops = [];
+
+/* 
     US 1 START
 */
 
 /* GET REQUEST */
-function loadJSONRequest(callback) {
-
+function loadJSONRequest(callback, URL) {
     var xobj = new XMLHttpRequest();
-    xobj.overrideMimeType("application/json");
-    xobj.open('GET', 'json/defaultAfspraken.json', true);
+    xobj.overrideMimeType('application/json');
+    xobj.open('GET', 'json/' + URL, true);
     xobj.onreadystatechange = function () {
         if (xobj.readyState == 4 && xobj.status == "200") {
             // Required use of an anonymous callback as .open will NOT return a value but simply returns undefined in asynchronous mode
@@ -24,7 +29,7 @@ function getDefaultAfspraken() {
         const dataJSON = JSON.parse(response);
         // Sort array
         selectionSort(dataJSON);
-    });
+    }, 'defaultAfspraken.json');
 }
 
 /* SELECTION SORT ARRAY */
@@ -75,6 +80,7 @@ function generateTable(sortedDataJson) {
         '</thead>';
     // Loop through array and add table cells
     for (var i = 0; i < sortedDataJson.length; i++) {
+
         html += '<tr>' +
             '<td>' + sortedDataJson[i].Afspraak.naamKlant + '</td>' +
             '<td>' + sortedDataJson[i].Afspraak.adresKlant + '</td>' +
@@ -90,6 +96,7 @@ function generateTable(sortedDataJson) {
     var table = document.getElementsByClassName("afsprakenTable")[0];
     if (table != undefined) {
         table.parentNode.removeChild(table);
+
     }
     document.getElementById("data").innerHTML += html;
 }
@@ -100,16 +107,6 @@ function generateTable(sortedDataJson) {
 /*
     US 3 START
  */
-sortAppointmentButton.addEventListener('click', event => {
-    sortAppointments();
-});
-
-const searchCostumerNameButton = document.getElementById('searchCostumerButton');
-
-searchCostumerNameButton.addEventListener('click', event => {
-    costumerNameSearch();
-});
-
 function sortAppointments() {
     loadJSONRequest(function (response) {
         // Parse JSON string into object
@@ -190,8 +187,7 @@ function sortAppointments() {
         }
 
         generateTable(quickSort(dataJSON, 0, dataJSON.length - 1));
-
-    });
+    }, 'defaultAfspraken.json');
 }
 
 function costumerNameSearch() {
@@ -247,6 +243,76 @@ function appointmentMechanicSearch() {
     US 4 END
 */
 
+/* 
+    US 5 START
+*/
+/* SEARCH APPOINTMENT BASED ON MECHANIC NAME */
+function getGVBInfo(number) {
+    loadJSONRequest(function (response) {
+        // Parse JSON string into object
+        var dataJSON = JSON.parse(response);
+        const firstNetworkKey = Object.keys(dataJSON[number].Network)[0];
+        var objective = dataJSON[number].Network[firstNetworkKey];
+        //console.log(objective);
+        var objectKeys = Object.keys(objective);
+        //console.log(number);
+        for (let i = 1; i < (objectKeys.length + 1); i++) {
+            // console.log(objective[i].TimingPointName);
+            var stopName = objective[i].TimingPointName;
+            // console.log(arrayStops.includes(stopName) + ' ' + stopName);
+
+            if (arrayStops.includes(stopName) === false) {
+                arrayStops.push(stopName);
+            }
+        }
+
+        populateStarts();
+        populateStops();
+        //console.log(arrayStops);
+
+
+    }, 'GVB/' + number + '.json');
+
+}
+
+function populateStarts() {
+    var startDropdown = document.getElementById('searchStartPointDropdown');
+    var startOptions = '';
+
+    for (var i = 0; i < arrayStops.length; i++) {
+        var option = document.createElement('option');
+        option.value = i;
+        option.innerHTML = arrayStops[i];
+        startOptions += option.outerHTML;
+
+    }
+    startDropdown.innerHTML = startOptions;
+};
+
+function populateStops() {
+    loadJSONRequest(function (response) {
+        // Parse JSON string into object
+        const dataJSON = JSON.parse(response);
+        generateOptionElements(dataJSON);
+    }, 'defaultAfspraken.json');
+};
+
+function generateOptionElements(dataJSONResponse) {
+    var stopDropdown = document.getElementById('searchEndPointDropdown');
+    var StopOptions = '';
+
+    for (var i = 0; i < dataJSONResponse.length; i++) {
+        var option = document.createElement('option');
+        option.innerHTML = dataJSONResponse[i].Afspraak.dichtsbijzijndeHalte;
+        StopOptions += option.outerHTML;
+    }
+    stopDropdown.innerHTML = StopOptions;
+}
+
+/* 
+    US 5 END
+*/
+
 /* ASSIGN CLICK LISTENER TO BUTTON */
 const importJSONButton = document.getElementById('importJSONButon');
 
@@ -258,5 +324,20 @@ const searchButton = document.getElementById('searchMechanicButton');
 searchButton.addEventListener('click', event => {
     appointmentMechanicSearch();
 });
+
 const sortAppointmentButton = document.getElementById('sortAppointmentButton');
 
+sortAppointmentButton.addEventListener('click', event => {
+    sortAppointments();
+});
+
+const searchCostumerNameButton = document.getElementById('searchCostumerButton');
+
+searchCostumerNameButton.addEventListener('click', event => {
+    costumerNameSearch();
+});
+
+//getGVBInfo(arrayGVBNumbers[0])
+for (let i = 0; i < arrayGVBNumbers.length; i++) {
+    getGVBInfo(arrayGVBNumbers[i]);
+}
