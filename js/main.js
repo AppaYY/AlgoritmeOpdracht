@@ -13,6 +13,7 @@ function loadJSONRequest(callback) {
         }
     };
     xobj.send();
+    
 }
 
 /* LOAD RESPONSE */
@@ -91,6 +92,7 @@ function generateTable(sortedDataJson) {
     document.getElementById("data").innerHTML += html;
     // Display input fields
     document.getElementById('CreateAppointmentdiv').style.display = 'block';
+    populateClosest();
 }
 /* 
     US 1 END
@@ -111,6 +113,25 @@ function insertNewRow() {
         cell.innerHTML = inputFields[i].value;
     }
     
+}
+
+var dropdownClosest = document.getElementById('dropdownClosest');
+function populateClosest(){
+    loadJSONRequest(function (response) {
+        const dataJSON = JSON.parse(response);
+        generateOptionElements(dataJSON);
+    }, 'defaultAfspraken.json');
+};
+
+function generateOptionElements(dataJSONResponse) {
+    var options = '';
+
+    for (var i = 0; i < dataJSONResponse.length; i++) {
+        var option = document.createElement('option');
+        option.innerHTML = dataJSONResponse[i].Afspraak.dichtsbijzijndeHalte;
+        options += option.outerHTML;
+    }
+    dropdownClosest.innerHTML = options;
 }
 /* 
     US 2 END
