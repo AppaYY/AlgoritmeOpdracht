@@ -101,7 +101,7 @@ function generateTable(sortedDataJson) {
     document.getElementById("data").innerHTML += html;
     // Display input fields
     document.getElementById('CreateAppointmentdiv').style.display = 'block';
-    populateClosest();
+
 }
 
 /*
@@ -130,11 +130,11 @@ var dropdownClosest = document.getElementById('dropdownClosest');
 function populateClosest() {
     loadJSONRequest(function (response) {
         const dataJSON = JSON.parse(response);
-        generateOptionElements(dataJSON);
+        generateOptionElements1(dataJSON);
     }, 'defaultAfspraken.json');
 };
 
-function generateOptionElements(dataJSONResponse) {
+function generateOptionElements1(dataJSONResponse) {
     var options = '';
 
     for (var i = 0; i < dataJSONResponse.length; i++) {
@@ -309,6 +309,7 @@ function getGVBInfo(number) {
 
         populateStarts();
         populateStops();
+        populateClosest();
         //console.log(arrayStops);
 
 
