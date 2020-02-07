@@ -127,7 +127,6 @@ function sortAppointments() {
         for (var i = 0; i < dataJSON.length; i++) {
             var namevalue = 0;
                 for (var p = 0; p < Object.keys(charArray).length; p++) {
-                    console.log(dataJSON[i].Afspraak.naamKlant.charAt(0)+'+'+Object.keys(charArray)[p]);
                     // match letter to number and add number to namevalue sum
                     if (dataJSON[i].Afspraak.naamKlant.charAt(0) === Object.keys(charArray)[p].toUpperCase()) {
                         dataJSON[i].Afspraak['namevalue'] = charArray[Object.keys(charArray)[p]];
