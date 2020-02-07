@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -10,7 +10,7 @@
 </head>
 
 <body>
-    <div class="wrapper">
+    <div class="wrapper" window.onload="populateList()">
         <div class="box">
             <button id="importJSONButon" class="button">Import afspraken</button>
         </div>
@@ -27,8 +27,20 @@
             <button id="sortAppointmentButton" class="button">sorteren op klant naam</button>
         </div>
     </div>
+
     <div id="data"></div>
-    <script src="js/main.js?V=1"></script>
+
+    <br>
+
+    <div class="wrapper">
+        <div class="box">
+            <select id="searchStartPointDropdown"></select>
+        </div>
+        <div class="box">
+            <select id="searchEndPointDropdown"></select>
+        </div>
+    </div>
+    <script src="js/main.js"></script>
 </body>
 
 </html>
